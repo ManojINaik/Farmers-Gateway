@@ -1,0 +1,152 @@
+/* Global responsive fixes */
+:root {
+    --navbar-height: 60px;
+    --primary-color: #2ECC71;
+    --dark-bg: #1a1a1a;
+}
+
+/* Fix dropdown overflow */
+.dropdown-menu {
+    max-height: calc(100vh - var(--navbar-height) - 40px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--dark-bg);
+}
+
+.dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 3px;
+}
+
+/* Mobile menu fixes */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        position: fixed;
+        top: var(--navbar-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--dark-bg);
+        padding: 1rem;
+        overflow-y: auto;
+        transition: transform 0.3s ease-in-out;
+        transform: translateX(-100%);
+        z-index: 1040;
+    }
+
+    .navbar-collapse.show {
+        transform: translateX(0);
+    }
+
+    .dropdown-menu {
+        position: static !important;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        box-shadow: none;
+        max-height: none;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
+    .nav-link {
+        padding: 0.75rem 1rem;
+    }
+
+    .dropdown-item {
+        padding: 0.75rem 1.5rem;
+        color: rgba(255,255,255,0.85);
+    }
+
+    .dropdown-item:hover {
+        background: rgba(46, 204, 113, 0.1);
+    }
+}
+
+/* General responsive fixes */
+@media (max-width: 767.98px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    h1 {
+        font-size: calc(1.5rem + 1.5vw);
+    }
+
+    h2 {
+        font-size: calc(1.3rem + 1vw);
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Small screen fixes */
+@media (max-width: 575.98px) {
+    .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .row {
+        margin-left: -0.75rem;
+        margin-right: -0.75rem;
+    }
+
+    .col, [class*="col-"] {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+
+/* Fix content overflow */
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* Fix table responsiveness */
+.table-responsive {
+    margin-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Fix form elements on mobile */
+@media (max-width: 767.98px) {
+    input, select, textarea {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+    }
+
+    .form-control {
+        height: 38px;
+    }
+
+    .input-group {
+        flex-wrap: wrap;
+    }
+
+    .input-group > .form-control {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .input-group-append,
+    .input-group-prepend {
+        width: 100%;
+        margin-left: 0 !important;
+    }
+}

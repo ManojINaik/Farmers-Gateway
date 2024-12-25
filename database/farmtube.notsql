@@ -1,0 +1,72 @@
+-- Farmtube Database Tables
+
+CREATE TABLE IF NOT EXISTS `farmtube_videos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uploadedBy` varchar(50) NOT NULL,
+  `userType` enum('farmer', 'customer', 'admin') NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text,
+  `privacy` int(11) NOT NULL DEFAULT '1',
+  `filePath` varchar(255) NOT NULL,
+  `category` varchar(50) NOT NULL,
+  `uploadDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `views` int(11) NOT NULL DEFAULT '0',
+  `duration` varchar(10) NOT NULL,
+  `thumbnail` varchar(255) NOT NULL,
+  `likes` int(11) NOT NULL DEFAULT '0',
+  `dislikes` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `farmtube_thumbnails` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `videoId` int(11) NOT NULL,
+  `filePath` varchar(255) NOT NULL,
+  `selected` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `videoId` (`videoId`),
+  CONSTRAINT `farmtube_thumbnails_ibfk_1` FOREIGN KEY (`videoId`) REFERENCES `farmtube_videos` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `farmtube_likes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` varchar(50) NOT NULL,
+  `userType` enum('farmer', 'customer', 'admin') NOT NULL,
+  `videoId` int(11) NOT NULL,
+  `liked` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `videoId` (`videoId`),
+  CONSTRAINT `farmtube_likes_ibfk_1` FOREIGN KEY (`videoId`) REFERENCES `farmtube_videos` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `farmtube_comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `postedBy` varchar(50) NOT NULL,
+  `userType` enum('farmer', 'customer', 'admin') NOT NULL,
+  `videoId` int(11) NOT NULL,
+  `responseTo` int(11) DEFAULT NULL,
+  `body` text NOT NULL,
+  `datePosted` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `videoId` (`videoId`),
+  CONSTRAINT `farmtube_comments_ibfk_1` FOREIGN KEY (`videoId`) REFERENCES `farmtube_videos` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `farmtube_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Insert default categories
+INSERT INTO `farmtube_categories` (`name`) VALUES
+('Crop Farming'),
+('Animal Husbandry'),
+('Organic Farming'),
+('Farm Equipment'),
+('Pest Control'),
+('Irrigation Techniques'),
+('Soil Management'),
+('Harvest Tips'),
+('Marketing Tips'),
+('Success Stories');
